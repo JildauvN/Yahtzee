@@ -7,8 +7,6 @@ public class Yahtzee {
     public static void main(String[] args) {
 		YahtzeeSpel ySpel = new YahtzeeSpel();
 		ySpel.spelen();
-		//ySpel.vasthouden();
-		//System.out.println(Arrays.toString(ySpel.blokArray));
     }
 }
 
@@ -27,6 +25,7 @@ class YahtzeeSpel{
 	
 	void spelen(){
 		Speler speler1 = new Speler();
+		System.out.println("Welkom bij Yahtzee!\n");
 		System.out.println("Druk Enter voor het werpen van een nieuwe worp. Druk q voor het stoppen van het spel.");
 		while (!input.nextLine().equals("q")){
 			eindeBeurt = false;
@@ -45,6 +44,13 @@ class YahtzeeSpel{
 			System.out.println("\n================================\n");
 			System.out.println("Druk Enter voor de eerste worp van de volgende beurt. Druk q voor het stoppen van het spel.");
 		}
+		System.out.println("\nU heeft het spel gestopt, dit zijn uw resultaten:");
+		System.out.println("Aantal beurten: " + speler1.history.size());
+		int totaal = 0;
+		for (Worp w : speler1.history){
+			totaal = totaal + w.score;
+		}
+		System.out.println("Totale score: " + totaal);	
 	}
 	
 	void vasthouden(){
