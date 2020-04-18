@@ -41,25 +41,24 @@ class YahtzeeSpel{
 					blokArray[j] = 0;
 				}
 			speler1.history.add(new Worp(huidigeWorp));
-			System.out.println("\nDruk Enter voor de eerste worp van de volgende beurt. Druk q voor het stoppen van het spel.");
+			speler1.history.get(speler1.history.size()-1).uitslag();
+			System.out.println("\n================================\n");
+			System.out.println("Druk Enter voor de eerste worp van de volgende beurt. Druk q voor het stoppen van het spel.");
 		}
 	}
 	
 	void vasthouden(){
-		
+		for(int j = 0; j < blokArray.length; j++){
+			blokArray[j] = 0;
+		}
 		System.out.println("\nWelke posities wilt u vasthouden? typ 0 voor geen en anders bijv. 124");
 		System.out.print("Invoer: ");
 		String str = input.nextLine();
 		for (int i = 0; i < str.length(); i++){
 			int a = Integer.parseInt(str.substring(i,i+1));
-			if (a != 0) {
-				blokArray[a-1] = 1;
-			} else {
-				eindeBeurt = true;
-			}
+			if (a != 0) blokArray[a-1] = 1;
 		}
-		
-		
+		if(blokArray[0] == 1 && blokArray[1] == 1 && blokArray[2] == 1 && blokArray[3] == 1 && blokArray[4] == 1) eindeBeurt = true;
 	}
 	
 	void gooien(int a){
@@ -87,12 +86,16 @@ class Dobbelstenen{
 }
 
 class Worp{
+	Scanner input = new Scanner(System.in);
 	int[] worp = new int[5];
+	int score;
 	Worp(int[] x){
 		worp = x;
 	}
 	void uitslag(){
-		System.out.println("Deze beurt had als resultaat " + Arrays.toString(worp));
+		System.out.println("\nDeze beurt had als resultaat " + Arrays.toString(worp));
+		System.out.print("Welke score schrijft u hiervoor op: ");
+		score = input.nextInt();
 	}
 }
 
