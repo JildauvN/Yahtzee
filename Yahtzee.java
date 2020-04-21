@@ -24,10 +24,28 @@ class YahtzeeSpel{
 	}
 	
 	void spelen(){
-		Speler speler1 = new Speler();
 		System.out.println("Welkom bij Yahtzee!\n");
-		System.out.println("Druk Enter voor het werpen van een nieuwe worp. Druk q voor het stoppen van het spel.");
+		System.out.print("Wilt u met 1 of 2 spelers spelen? Typ 1 of 2: ");
+		int aantalSpelers = new Scanner(System.in).nextInt();
+		Speler speler1 = new Speler();
+		Speler speler = speler1;
+		Speler speler2 = new Speler();
+		if (aantalSpelers == 2){
+			speler = speler2;
+		}
+		String spelerStr = "------ SPELER 1 ------";
+		System.out.println("\nDruk Enter voor het werpen van een nieuwe worp. Druk q voor het stoppen van het spel.");
 		while (!input.nextLine().equals("q")){
+			if (aantalSpelers == 2){
+				if (speler == speler1){
+					speler = speler2;
+					spelerStr = "------ SPELER 2 ------";
+				} else {
+					speler = speler1;
+					spelerStr = "------ SPELER 1 ------";
+				}
+			}
+			System.out.println(spelerStr);
 			eindeBeurt = false;
 			gooien(1);
 			vasthouden();
@@ -39,18 +57,28 @@ class YahtzeeSpel{
 			for(int j = 0; j < blokArray.length; j++){
 					blokArray[j] = 0;
 				}
-			speler1.history.add(new Worp(huidigeWorp));
-			speler1.history.get(speler1.history.size()-1).uitslag();
+			speler.history.add(new Worp(huidigeWorp));
+			speler.history.get(speler.history.size()-1).uitslag();
 			System.out.println("\n================================\n");
 			System.out.println("Druk Enter voor de eerste worp van de volgende beurt. Druk q voor het stoppen van het spel.");
 		}
-		System.out.println("\nU heeft het spel gestopt, dit zijn uw resultaten:");
-		System.out.println("Aantal beurten: " + speler1.history.size());
+		System.out.println("\nU heeft het spel gestopt, dit zijn de resultaten:");
+		System.out.println("------ SPELER 1 ------");
+		System.out.println("Aantal beurten:\t" + speler1.history.size());
 		int totaal = 0;
 		for (Worp w : speler1.history){
 			totaal = totaal + w.score;
 		}
-		System.out.println("Totale score: " + totaal);	
+		System.out.println("Totale score:\t" + totaal);	
+		if (aantalSpelers == 2){
+			System.out.println("------ SPELER 2 ------");
+			System.out.println("Aantal beurten:\t" + speler2.history.size());
+			totaal = 0;
+			for (Worp w : speler2.history){
+				totaal = totaal + w.score;
+			}
+			System.out.println("Totale score:\t" + totaal);	
+		}
 	}
 	
 	void vasthouden(){
@@ -99,9 +127,10 @@ class Worp{
 		worp = x;
 	}
 	void uitslag(){
-		System.out.println("\nDeze beurt had als resultaat " + Arrays.toString(worp));
+		System.out.println("\nDeze beurt heeft als resultaat " + Arrays.toString(worp));
 		System.out.print("Welke score schrijft u hiervoor op: ");
 		score = input.nextInt();
+		System.out.print("");
 	}
 }
 
